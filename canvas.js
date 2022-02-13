@@ -6,20 +6,39 @@ canvas.height = window.innerHeight;
 
 // ctx.fillRect(100,100,100,100)
 
+window.addEventListener('resize',function() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    init(); 
+})
 
 
-function circle(x,y,dx,dy,r) {
+let colorArray = [
+    // '#506266',
+    // '#818274',
+    // '#A3AB78',
+    '#BDE038',
+    '#10454F',
+    '#F23005',
+    '#730202',
+    '#BF7069',
+    '#BF1304'
+]
+
+function circle(x,y,dx,dy,r,color) {
 
     this.x = x;
     this.y = y;
     this.dx = dx;
     this.dy = dy;
     this.r = r;
+    this.color = color;
 
     this.draw = function () {
         ctx.beginPath();
         ctx.arc(this.x,this.y,this.r,0,Math.PI * 2, false);
         ctx.strokeStyle='blue';
+        ctx.fillStyle = color;
         ctx.stroke();
         ctx.fill();
     
@@ -40,23 +59,29 @@ function circle(x,y,dx,dy,r) {
 }
 
 //Creating a circle array
-let numberOfCircles = 1000;
+let numberOfCircles = 500;
 let circleArray = [];
 
-for (let i = 0; i < numberOfCircles; i++) {
-    var x = Math.random()* innerWidth;
-    var y = Math.random() * innerHeight;
-    var r = 2;
 
-    var dx = Math.round(Math.random()*10) ;
-    var dy = Math.round(Math.random()*2);
 
-    circleArray.push(new circle(x,y,dx,dy,r));
+function init() {
+    circleArray = [];
+
+    for (let i = 0; i < numberOfCircles; i++) {
+        var x = Math.random()* innerWidth;
+        var y = Math.random() * innerHeight;
+        var r = 2;
     
+        var dx = Math.floor(Math.random()) ;
+        var dy = Math.floor(Math.random()-0.5);
+
+        var color = colorArray[Math.floor(Math.random()* colorArray.length)]
+    
+        circleArray.push(new circle(x,y,dx,dy,r, color));
+        
+    }
 }
-
-
-c1 = new circle(x,y,dx,dy,r);
+// c1 = new circle(x,y,dx,dy,r);
 
 function animate() {
     requestAnimationFrame(animate);
@@ -70,5 +95,6 @@ function animate() {
 
 }
 
+init();
 animate();
 
