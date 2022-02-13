@@ -6,13 +6,26 @@ canvas.height = window.innerHeight;
 
 // ctx.fillRect(100,100,100,100)
 
+///========================C A N V A S    R E S P O N S I V E N E S S============
 window.addEventListener('resize',function() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
     init(); 
 })
 
+//===============================================================================
+let mouse = {
+    x : undefined,
+    y : undefined
+}
+window.addEventListener('mousemove', function (event) {
+    // console.log(event);   
+    mouse.x = event.x;
+    mouse.y = event.y; 
+    console.log(event,mouse);
+})
 
+//================== CO L O R   A R R AY =================================
 let colorArray = [
     // '#506266',
     // '#818274',
@@ -25,6 +38,7 @@ let colorArray = [
     '#BF1304'
 ]
 
+//==========================================================================
 function circle(x,y,dx,dy,r,color) {
 
     this.x = x;
@@ -34,6 +48,16 @@ function circle(x,y,dx,dy,r,color) {
     this.r = r;
     this.color = color;
 
+    this.draw2 = function () {
+        ctx.beginPath();
+        ctx.arc(this.x,this.y,this.r,0,Math.PI * 2, false);
+        ctx.strokeStyle='blue';
+        // ctx.fillStyle = color;
+        ctx.stroke();
+        // ctx.fill();
+        console.log('hello');
+    }
+
     this.draw = function () {
         ctx.beginPath();
         ctx.arc(this.x,this.y,this.r,0,Math.PI * 2, false);
@@ -41,7 +65,6 @@ function circle(x,y,dx,dy,r,color) {
         ctx.fillStyle = color;
         ctx.stroke();
         ctx.fill();
-    
     }
     this.update = function () {
         this.x += this.dx ;
@@ -55,9 +78,13 @@ function circle(x,y,dx,dy,r,color) {
             this.dy = -this.dy;
         }
         this.draw();
+        if (mouse.x > 0 &&  mouse.y > 0 ) {
+            this.draw2();
+        }
     }
 }
 
+//===========================================================================
 //Creating a circle array
 let numberOfCircles = 500;
 let circleArray = [];
@@ -83,6 +110,7 @@ function init() {
 }
 // c1 = new circle(x,y,dx,dy,r);
 
+//======================================================================================
 function animate() {
     requestAnimationFrame(animate);
     ctx.clearRect(0,0,innerWidth, innerHeight);
@@ -95,6 +123,7 @@ function animate() {
 
 }
 
+//=====================================================================================
 init();
 animate();
 
